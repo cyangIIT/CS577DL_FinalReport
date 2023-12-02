@@ -104,28 +104,28 @@ def train_data_aug(batch_size = 2):
     image_datagen = ImageDataGenerator(rotation_range=0.2, rescale=1./255, width_shift_range=0.05,
                     height_shift_range=0.05, shear_range=0.05, zoom_range=0.05,
                     horizontal_flip=True, fill_mode='nearest')
-    #mask_datagen = ImageDataGenerator(rotation_range=0.2, rescale=1./255, width_shift_range=0.05,
-    #                height_shift_range=0.05, shear_range=0.05, zoom_range=0.05,
-    #                horizontal_flip=True, fill_mode='nearest')
+    mask_datagen = ImageDataGenerator(rotation_range=0.2, rescale=1./255, width_shift_range=0.05,
+                    height_shift_range=0.05, shear_range=0.05, zoom_range=0.05,
+                    horizontal_flip=True, fill_mode='nearest')
     dir = FOLDER_PATH + 'training/'
     image_generator = image_datagen.flow_from_directory(dir + 'images', class_mode=None, seed=seed,
                     color_mode="grayscale", target_size=(256,256), batch_size=batch_size)
-    #mask_generator = mask_datagen.flow_from_directory(dir + 'mask', class_mode=None, seed=seed,
-    #               color_mode="grayscale", target_size=(256,256), batch_size=batch_size)
-    #train_generator = zip(image_generator, mask_generator)
+    mask_generator = mask_datagen.flow_from_directory(dir + 'mask', class_mode=None, seed=seed,
+                   color_mode="grayscale", target_size=(256,256), batch_size=batch_size)
+    train_generator = zip(image_generator, mask_generator)
     train_generator = zip(image_generator)
     return train_generator
 
 def test_data_aug():
     seed = 1
     image_datagen = ImageDataGenerator(rescale=1./255)
-    #mask_datagen = ImageDataGenerator(rescale=1./255)
+    mask_datagen = ImageDataGenerator(rescale=1./255)
     dir = FOLDER_PATH + 'testing/'
     image_generator = image_datagen.flow_from_directory(dir + 'images', shuffle=False, class_mode=None,
                     seed=seed, color_mode="grayscale", target_size=(256,256), batch_size=1)
-    #mask_generator = mask_datagen.flow_from_directory(dir + 'mask', shuffle=False, class_mode=None,
-    #                seed=seed, color_mode="grayscale", target_size=(256,256), batch_size=1)
-    #test_generator = zip(image_generator, mask_generator)
+    mask_generator = mask_datagen.flow_from_directory(dir + 'mask', shuffle=False, class_mode=None,
+                    seed=seed, color_mode="grayscale", target_size=(256,256), batch_size=1)
+    test_generator = zip(image_generator, mask_generator)
     test_generator = zip(image_generator)
     return test_generator
 
